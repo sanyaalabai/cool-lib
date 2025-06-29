@@ -1,0 +1,16 @@
+.margin-0{margin:0}
+.padding-0{padding:0}
+.column{display:flex;flex-direction:column}
+.row{display:flex;flex-direction:row}
+.hidden{display:none}
+.opacity-25{opacity:25%}
+.opacity-50{opacity:50%}
+.opacity-75{opacity:75%}
+.pointer{cursor:pointer}
+.sticky{position:sticky}
+.absolute{position:absolute}
+.bottom{position:absolute;bottom:0}
+.top{position:absolute;top:0}
+.right{position:absolute;right:0}
+.left{position:absolute;left:0}
+.center{width:100%;align-items:center;justify-content:center}
