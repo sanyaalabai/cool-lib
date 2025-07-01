@@ -14,3 +14,6 @@
 .right{position:absolute;right:0}
 .left{position:absolute;left:0}
 .center{width:100%;align-items:center;justify-content:center}
+
+body{padding:0;margin:0}
+header{width:100%;height:4.5rem;top:0;position:fixed;display:flex;align-items:center}

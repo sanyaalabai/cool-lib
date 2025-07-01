@@ -2,12 +2,19 @@
 Cool and Simple Web Library for (mostly) styling
 
 ## Contents
-- cool.css  
+- **cool.css**  
     Helpful styling one-liners. Useful if you don't use tailwindcss or anything like that.
-- cool.js  
+- **cool.js**  
     Some simple but useful functions (delay, copy to clipboard, etc.)
-- header.js  
+- **header.js**  
     Authomatic sticky header.
+- **import/<font\>.js**  
+    Imports <font\> from [Google Fonts](https://fonts.google.com/) and makes it base font family for the document.
+    Supported fonts:
+    - Inter
+    - Roboto
+    - Rubik
+    - Ubuntu
 
 ## TODO
 - Themeing script
