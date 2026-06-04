@@ -61,7 +61,6 @@ try {
     if(config[0]) config=await getJSON('../header.json', parse);
     if(config[0]) config=await getJSON('../../header.json', parse);
     if(config[0]) config=await getJSON('../../../header.json', parse);
-    console.log(config)
     logoImgUrl=config[1];
     logoUrl=config[2];
     headerLinks=config[3];
