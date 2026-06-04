@@ -45,3 +45,18 @@ export async function getJSON(url, callback) {
     xhr.send();
   });
 }
+
+export function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min)) + min;
+}
+export function getRandomInt(max) {
+  return getRandomInt(0,max);
+}
+export function getRandomFloat(min, max) {
+  return Math.floor(Math.random() * (max - min)) + min;
+}
+export function getRandomFloat(max) {
+  return getRandomFloat(0,max);
+}

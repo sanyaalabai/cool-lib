@@ -17,6 +17,7 @@
 .fixed{position:fixed}
 .sticky{position:sticky}
 .absolute{position:absolute}
+.relative{position:relative}
 .bottom{position:absolute;bottom:0}
 .top{position:absolute;top:0}
 .right{position:absolute;right:0}
