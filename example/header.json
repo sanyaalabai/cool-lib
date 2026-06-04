@@ -18,7 +18,8 @@
     "features": {
         "burger": {
             "enabled": true,
-            "icon": "img/burger.svg"
+            "icon": "img/burger.svg",
+            "x_mark": "img/xmark.svg"
         }
     }
 }

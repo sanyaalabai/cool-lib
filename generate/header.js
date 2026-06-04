@@ -42,15 +42,15 @@ try {
             }
             if(data.hasOwnProperty("features")) {
                 if(data.features.hasOwnProperty("burger")) {
-                    if(data.features.hasOwnProperty("enabled")) burgerMenuEnabled=data.features.burger.enabled;
-                    if(data.features.hasOwnProperty("icon")) burgerMenuIcon=data.features.burger.icon;
-                    if(data.features.hasOwnProperty("x_mark")) burgerMenuIcon=data.features.burger.x_mark;
+                    if(data.features.burger.hasOwnProperty("enabled")) burgerMenuEnabled=data.features.burger.enabled;
+                    if(data.features.burger.hasOwnProperty("icon")) burgerMenuIcon=data.features.burger.icon;
+                    if(data.features.burger.hasOwnProperty("x_mark")) burgerXMark=data.features.burger.x_mark;
                 }
                 if(data.features.hasOwnProperty("theme")) {
-                    if(data.features.hasOwnProperty("enabled")) themeBtnEnabled=data.features.theme.enabled;
-                    if(data.features.hasOwnProperty("system")) themeSystem=data.features.theme.system;
-                    if(data.features.hasOwnProperty("light")) themeLight=data.features.theme.light;
-                    if(data.features.hasOwnProperty("dark")) themeDark=data.features.theme.dark;
+                    if(data.features.theme.hasOwnProperty("enabled")) themeBtnEnabled=data.features.theme.enabled;
+                    if(data.features.theme.hasOwnProperty("system")) themeSystem=data.features.theme.system;
+                    if(data.features.theme.hasOwnProperty("light")) themeLight=data.features.theme.light;
+                    if(data.features.theme.hasOwnProperty("dark")) themeDark=data.features.theme.dark;
                 }
             }
         }
@@ -61,6 +61,7 @@ try {
     if(config[0]) config=await getJSON('../header.json', parse);
     if(config[0]) config=await getJSON('../../header.json', parse);
     if(config[0]) config=await getJSON('../../../header.json', parse);
+    console.log(config)
     logoImgUrl=config[1];
     logoUrl=config[2];
     headerLinks=config[3];
