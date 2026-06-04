@@ -1,61 +1,102 @@
-//WIP
-//Create footer itself
-let footer=document.createElement("footer");
-//Logo+social
-let navLogo=document.createElement("nav");
-navLogo.classList.add("align-ico");
-//Logo
-let logo=document.createElement("h2");
-logo.innerText="Kaban Central";
-navLogo.appendChild(logo);
-//Socials
-let socials=document.createElement("span");
-socials.classList.add("needs-align");
-//Telegram
-let tgLink=document.createElement("a");
-tgLink.href="https://t.me/kaban_central";
-tgLink.target="_blank";
-let tgLogoLink=document.createElement("object");
-tgLogoLink.type="image/svg+xml";
-tgLogoLink.data=baseURL+"img/tg.svg";
-tgLogoLink.classList.add("icof");
-tgLink.appendChild(tgLogoLink);
-socials.appendChild(tgLink);
-//VK
-let vkLink=document.createElement("a");
-vkLink.href="https://vk.com/kaban_central";
-vkLink.target="_blank";
-let vkLogoLink=document.createElement("object");
-vkLogoLink.type="image/svg+xml";
-vkLogoLink.data=baseURL+"img/vk.svg";
-vkLogoLink.classList.add("icof");
-vkLink.appendChild(vkLogoLink);
-socials.appendChild(vkLink);
-//Conect it to footer
-navLogo.appendChild(socials);
-footer.appendChild(navLogo);
-//Footer links
-let navLinks=document.createElement("nav");
-navLinks.id="footer-links";
-//Contacts
-let contactsLink=document.createElement("a");
-contactsLink.href=baseURL+"contacts";
-contactsLink.innerText="Контакты";
-navLinks.appendChild(contactsLink);
-//TOS
-let tosLink=document.createElement("a");
-tosLink.href=baseURL+"wiki/legal/terms-of-use";
-tosLink.innerText="Пользовательское соглашение";
-navLinks.appendChild(tosLink);
-//Conect it to footer
-footer.appendChild(navLinks);
-//Legal notice
-let legalNotice=document.createElement("p");
-legalNotice.style.marginTop="0.8rem";
-legalNotice.innerText="Not an official Minecraft product. We are in no way affiliated with or\
-    endorsed by Mojang Synergies AB, Microsoft Corporation or other\
-    rightsholders.";
-footer.appendChild(legalNotice);
-document.body.appendChild(footer);
+import { getJSON } from "../cool.js";
 
-document.body.removeChild(document.getElementById("footer-gen"));
+var foundCoollibDir=false;
+if (typeof coollibDir !== "undefined") foundCoollibDir=true;
+
+try {
+    var logoImgUrl="";
+    var logoUrl="";
+    var footerLinks=[];
+    var logoText="";
+    var footerSocials=[];
+    console.log("cool-lib (generate/footer.js): Trying to fetch config json");
+    const parse=function(err, data) {
+        var logoImgUrl="";
+        var logoUrl="";
+        var footerLinks=[];
+        var logoText="";
+        var footerSocials=[];
+        if(err!==200) {
+          console.log('cool-lib (generate/footer.js): Couldn\'t fetch json: ' + err);
+        } else {
+            if(data.hasOwnProperty("logo")) {
+                logoUrl=data.logo.url;
+                if(data.logo.hasOwnProperty("img")) logoImgUrl=data.logo.img;
+                if(data.logo.hasOwnProperty("text")) logoText=data.logo.text;
+            }
+            if(data.hasOwnProperty("links"))
+                for(let i=0;i<data.links.length;i++)
+                    footerLinks.push(data.links[i]);
+            if(data.hasOwnProperty("socials")) {
+                    for(let i=0;i<data.socials.length;i++)
+                        footerSocials.push(data.socials[i]);
+                }
+        }
+        return [err!==200,logoImgUrl,logoUrl,footerLinks,logoText,footerSocials];
+    };
+    var config=await getJSON('footer.json', parse);
+    if(foundCoollibDir) config=await getJSON(coollibDir, parse);
+    if(config[0]) config=await getJSON('../footer.json', parse);
+    if(config[0]) config=await getJSON('../../footer.json', parse);
+    if(config[0]) config=await getJSON('../../../footer.json', parse);
+    logoImgUrl=config[1];
+    logoUrl=config[2];
+    footerLinks=config[3];
+    logoText=config[4];
+    footerSocials=config[5];
+    console.log("cool-lib (generate/footer.js): Generating footer");
+    //Create footer itself
+    let footer=document.createElement("footer");
+    //Logo+social
+    let navLogo=document.createElement("nav");
+    navLogo.style.display="flex";
+    navLogo.style.alignItems="center";
+    navLogo.style.textAlign="center";
+    //Logo
+    if(logoText!=undefined&&logoText!="") {
+        let logoTxt=document.createElement("h2");
+        logoTxt.innerText=logoText;
+        navLogo.appendChild(logoTxt);
+    }
+    if(logoImgUrl!=undefined&&logoImgUrl!="") {
+        let imgHeader=document.createElement("img");
+        imgHeader.src=logoImgUrl;
+        imgHeader.classList.add("select-none");
+        imgHeader.id="footer-logo";
+        navLogo.append(imgHeader);
+    }
+    //Socials
+    let socials=document.createElement("span");
+    socials.classList.add("needs-align");
+    for(let i=0;i<footerSocials.length;i++) {
+        let fLink=document.createElement("a");
+        fLink.href=footerSocials[i].link;
+        fLink.target="_blank";
+        let fLogoLink=document.createElement("object");
+        fLogoLink.type="image/svg+xml";
+        fLogoLink.data=footerSocials[i].img;
+        fLogoLink.classList.add("footer-ico");
+        fLink.appendChild(fLogoLink);
+        socials.appendChild(fLink);
+    }
+    //Conect it to footer
+    navLogo.appendChild(socials);
+    footer.appendChild(navLogo);
+    //Footer links
+    let navLinks=document.createElement("nav");
+    navLinks.id="footer-links";
+    for(let i=0;i<footerLinks.length;i++) {
+        let footerLink=document.createElement("a");
+        footerLink.href=footerLinks[i].link;
+        footerLink.id=footerLinks[i].id+"-fl";
+        footerLink.innerText=footerLinks[i].name;
+        navLinks.appendChild(footerLink);
+    }
+    //Conect it to footer
+    footer.appendChild(navLinks);
+    document.body.appendChild(footer);
+    console.log('cool-lib (generate/footer.js): Footer fully generated');
+}
+catch (error) {
+    console.log('cool-lib (footer.js): Couldn\'t fetch json: ' + error);
+}

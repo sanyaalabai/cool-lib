@@ -1,3 +1,5 @@
+//Reaaaly WIP. Won't fix it this commit XD
+
 let sidemenu=document.createElement("div");
 sidemenu.id="sidemenu";
 //Sidemenu collapser

@@ -1,0 +1,24 @@
+{
+    "logo": {
+        "url": "https://example.com/",
+        "text": "Website"
+    },
+    "links": [
+        {
+            "link": "https://example.com/",
+            "id": "example3",
+            "name": "Example 3"
+        },
+        {
+            "link": "https://example.com/",
+            "id": "example4",
+            "name": "Example 4"
+        }
+    ],
+    "socials": [
+        {
+            "link": "https://example.com/",
+            "img": "img/burger.svg"
+        }
+    ]
+}

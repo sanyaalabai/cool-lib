@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../cool.css"/>
+    <script src="../import/inter.js"></script>
+    <style>
+        :root {
+            overflow-y: hidden;
+            font-family: 'Inter', sans-serif;
+        }
+        header {
+            padding-left: 1rem;
+            width: 100vw;
+            background: black;
+            position: fixed;
+        }
+        .ico {
+            filter: invert(1);
+        }
+        button {
+            background: transparent;
+            border: none;
+        }
+        @media (min-width: 760px) {
+            #burger-hb {
+                display: none;
+                opacity: 0;
+                width: 0;
+            }
+            #burger-menu {
+                display: none;
+            }
+        }
+        @media (max-width: 760px) {
+            #header-nav-large {
+                display: none;
+            }
+            #login-hb {
+                display: none;
+                opacity: 0;
+                width: 0;
+            }
+            #burger-hb object {
+                width: 1.65rem;
+                height: 1.65rem;
+            }
+            #burger-menu {
+                background: color-mix(in srgb, black 40%, transparent 60%);
+                position: fixed;
+                right: 0;
+                top: 0;
+                width: 100vw;
+                height: 100vh;
+                overflow: hidden;
+                opacity: 1;
+                z-index: 1000;
+            }
+            #burger-menu-body {
+                background: black;
+                position: fixed;
+                right: 0;
+                top: 0;
+                width: 60vw;
+                height: 100vh;
+                display: grid;
+            }
+            #burger-menu.burger-hidden {
+                opacity: 0;
+                z-index: -1000;
+                pointer-events: none;
+            }
+            #burger-menu-hider {
+                background: none;
+                border: none;
+                margin: 1rem;
+            }
+            #burger-menu-hider object {
+                width: 2rem;
+                height: 2rem;
+            }
+            #burger-menu-body ul {
+                width: 100%;
+                padding-left: 0;
+            }
+            #burger-menu-body ul li {
+                margin: 0;
+                height: 3rem;
+                padding-left: 0.75rem;
+                font-size: 1.5rem;
+                display: flex;
+                align-items: center;
+                background: transparent;
+                border-left: none;
+                border-right: none;
+                cursor: pointer;
+            }
+            #burger-menu-body ul a {
+                color: gray;
+                text-decoration: none;
+            }
+            #burger-menu-body ul li:hover {
+                background: dimgray;
+            }
+            #burger-menu-body ul li:hover a {
+                color: white;
+            }
+            #burger-elements {
+                width: 100%;
+            }
+            #login-header {
+                display: none;
+            }
+        }
+        #header-ico, #footer-ico {
+            width: 2.5rem;
+            height: 2.5rem;
+        }
+        header.fixed {
+            background: color-mix(in srgb, black 52%, transparent 48%);
+            border-bottom: dashed 1px transparent;
+            backdrop-filter: blur(10px);
+        }
+        header nav {
+            display: flex;
+            gap: 1.75rem;
+        }
+        header nav h1 {
+            color: white;
+        }
+        header nav a {
+            text-decoration: none;
+            color: gray;
+            display: flex;
+            align-items: center;
+        }
+        header nav a:hover {
+            color: white;
+        }
+        footer {
+            margin-top: 1rem;
+            background: black;
+            padding: 1.5rem;
+        }
+        footer h2 {
+            color: white;
+            margin: 0;
+            margin-bottom: 1.4rem;
+        }
+        footer p {
+            opacity: 0.5;
+            font-weight: 200;
+            font-size: 1rem;
+        }
+        #footer-links {
+            display: flex;
+            gap: 0.75rem;
+        }
+        #footer-links a {
+            text-decoration: none;
+            color: white;
+            padding: 0.75rem 0.9rem;
+            background-color: #18161540;
+            border-radius: 100px;
+        }
+        #footer-links a:hover {
+            background-color: #1f1c1b7a
+        }
+        #acc-h {
+            display: flex;
+            justify-content: end;
+            align-items: center;
+            padding-right: 2.25rem;
+            height: 3rem;
+            gap: 0.5rem;
+        }
+        #theme-switcher {
+            padding: 0.5rem 0.75rem;
+            border: none;
+            background: none;
+        }
+        #color-scheme {
+            display: none;
+        }
+        #header_logo {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            padding: 0;
+            padding-right: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <script type="module" src="../generate/header.js"></script>
+    <div style="margin-top: 20px; height: 73vh; padding: 3rem;font-size: x-large;">
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus totam in iure eveniet ipsum, dignissimos amet molestias excepturi. Ratione, ea debitis suscipit reprehenderit, eaque consectetur inventore repellendus ullam eius tenetur voluptatem delectus, eos omnis molestiae a sit saepe aperiam sequi? Corrupti alias explicabo reprehenderit enim? Ex repudiandae iure cumque, consequatur velit sed fugit possimus, nemo ullam eaque in. Aliquid qui explicabo sint, dolore quis reiciendis amet deserunt eligendi. Iste porro, molestias illum at, ex dolorum expedita, vitae quam reiciendis a ratione totam animi nostrum! Est quibusdam architecto quod id repudiandae doloremque! Aspernatur beatae maiores sunt non autem ducimus iste est eaque? Dolorum sunt eum a quasi tenetur accusamus aperiam sint sed excepturi. Reprehenderit placeat similique saepe repellat soluta expedita molestias fuga, tempora explicabo in hic ullam culpa nam? Minus placeat voluptate facilis quae nam! Veritatis ipsum explicabo unde aut inventore illum nobis similique magnam minus praesentium nostrum amet consectetur, dolores adipisci aliquid, asperiores doloribus necessitatibus sit repellendus! Doloribus eaque nemo deleniti aut suscipit velit aliquam quibusdam assumenda perspiciatis vel et quia, vero modi mollitia ab distinctio ducimus voluptates repellendus cupiditate dolores nihil! Architecto aperiam molestias autem soluta quisquam, saepe repudiandae eius, ullam animi amet, excepturi incidunt necessitatibus dolor quia enim?</p>
+    </div>
+    <script type="module" src="../generate/footer.js"></script>
+</body>
+</html>

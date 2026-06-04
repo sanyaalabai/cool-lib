@@ -19,7 +19,7 @@ function switchColorScheme() {
     slctr.value=schemes[i];
     updateColorScheme();
 }
-window.addEventListener("load", function(){
+function loadStyle(){
     //Create selector
     if(schemes.length<2){
         console.error("cool-lib (theme.js): Not enough color schemes.");
@@ -34,7 +34,7 @@ window.addEventListener("load", function(){
         opt.innerText=schemes[i];
         slctr.appendChild(opt);
     }
-    document.body.appendChild(slctr);
+    document.documentElement.appendChild(slctr);
     //Set selector's value
     let val=localStorage.getItem(strKey);
     if(!val || !schemes.includes(val)) {
@@ -43,4 +43,11 @@ window.addEventListener("load", function(){
     }
     slctr.value=val;
     updateColorScheme();
+}
+
+document.documentElement.style.setProperty("--theme", localStorage.getItem(strKey));
+loadStyle();
+window.addEventListener("load", function(){
+    if(this.getComputedStyle(this.document.documentElement).getPropertyValue("--transition-duration")==='0s')
+        document.documentElement.style.setProperty("--transition-duration", '400ms');
 });

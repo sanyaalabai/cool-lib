@@ -1,0 +1,24 @@
+{
+    "logo": {
+        "url": "https://example.com/",
+        "img": "img/cool.png"
+    },
+    "links": [
+        {
+            "link": "https://example.com/",
+            "id": "example1",
+            "name": "Example 1"
+        },
+        {
+            "link": "https://example.com/",
+            "id": "example2",
+            "name": "Example 2"
+        }
+    ],
+    "features": {
+        "burger": {
+            "enabled": true,
+            "icon": "img/burger.svg"
+        }
+    }
+}

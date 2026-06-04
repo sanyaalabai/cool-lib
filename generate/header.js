@@ -1,41 +1,107 @@
+import { getJSON } from "../cool.js";
+
+var foundCoollibDir=false;
+if (typeof coollibDir !== "undefined") foundCoollibDir=true;
+
 try {
-    logoImgUrl="";
-    logoUrl="";
-    headerLinks=[];
-    burgerMenuEnabled=false;
-    themeBtnEnabled=false;
-    getJSON('header.json', function(err, data) {
-        if(err !== null) {
-          console.log('cool-lib (header.js): Couldn\'t fetch json: ' + err);
-          return;
+    var logoImgUrl="";
+    var logoUrl="";
+    var headerLinks=[];
+    var burgerMenuEnabled=false;
+    var themeBtnEnabled=false;
+    var logoText="";
+    var burgerMenuIcon="";
+    var themeSystem="";
+    var themeLight="";
+    var themeDark="";
+    var burgerXMark="";
+    console.log("cool-lib (generate/header.js): Trying to fetch config json");
+    const parse=function(err, data) {
+        var logoImgUrl="";
+        var logoUrl="";
+        var headerLinks=[];
+        var burgerMenuEnabled=false;
+        var themeBtnEnabled=false;
+        var logoText="";
+        var burgerMenuIcon="";
+        var themeSystem="";
+        var themeLight="";
+        var themeDark="";
+        var burgerXMark="";
+        if(err !== 200) {
+          console.log('cool-lib (generate/header.js): Couldn\'t fetch json: ' + err);
+        } else {
+            if(data.hasOwnProperty("logo")) {
+                logoUrl=data.logo.url;
+                if(data.logo.hasOwnProperty("img")) logoImgUrl=data.logo.img;
+                if(data.logo.hasOwnProperty("text")) logoText=data.logo.text;
+            }
+            if(data.hasOwnProperty("links")) {
+                for(let i=0;i<data.links.length;i++)
+                    headerLinks.push(data.links[i]);
+            }
+            if(data.hasOwnProperty("features")) {
+                if(data.features.hasOwnProperty("burger")) {
+                    if(data.features.hasOwnProperty("enabled")) burgerMenuEnabled=data.features.burger.enabled;
+                    if(data.features.hasOwnProperty("icon")) burgerMenuIcon=data.features.burger.icon;
+                    if(data.features.hasOwnProperty("x_mark")) burgerMenuIcon=data.features.burger.x_mark;
+                }
+                if(data.features.hasOwnProperty("theme")) {
+                    if(data.features.hasOwnProperty("enabled")) themeBtnEnabled=data.features.theme.enabled;
+                    if(data.features.hasOwnProperty("system")) themeSystem=data.features.theme.system;
+                    if(data.features.hasOwnProperty("light")) themeLight=data.features.theme.light;
+                    if(data.features.hasOwnProperty("dark")) themeDark=data.features.theme.dark;
+                }
+            }
         }
-        if(data.logo!==null) {
-            logoUrl=data.logo.url;
-            logoImgUrl=data.logo.img;
-        }
-        if(data.links!==null)
-            for(let i=0;i<data.links.count;i++)
-                headerLinks.push(data.links[i]);
-        if(data.features!==null) {
-            if(data.features.burger!==null) burgerMenuEnabled=data.features.burger;
-            if(data.features.theme!==null) themeBtnEnabled=data.features.theme;
-        }
-    });
+        return [err!==200,logoImgUrl,logoUrl,headerLinks,burgerMenuEnabled,themeBtnEnabled,logoText,burgerMenuIcon,themeSystem,themeLight,themeDark,burgerXMark];
+    };
+    var config=await getJSON('header.json', parse);
+    if(foundCoollibDir) config=await getJSON(coollibDir, parse);
+    if(config[0]) config=await getJSON('../header.json', parse);
+    if(config[0]) config=await getJSON('../../header.json', parse);
+    if(config[0]) config=await getJSON('../../../header.json', parse);
+    logoImgUrl=config[1];
+    logoUrl=config[2];
+    headerLinks=config[3];
+    burgerMenuEnabled=config[4];
+    themeBtnEnabled=config[5];
+    logoText=config[6];
+    burgerMenuIcon=config[7];
+    themeSystem=config[8];
+    themeLight=config[9];
+    themeDark=config[10];
+    burgerXMark=config[11];
+    console.log("cool-lib (generate/header.js): Generating header");
     //Inject header
     let header=document.createElement("header");
     //Logo
     let span1Header=document.createElement("span");
     span1Header.classList.add("flex");
-    if(logoUrl!=="") {
-        span1Header.innerHTML+="\
-    <a href=\""+logoUrl+"\" style=\"padding: 0;padding-right: 1.5rem;\">\
-        <img class=\"select-none\" src=\""+logoImgUrl+"\" id=\"server-ico\">\
-    </a>";
+    let hasValidText=logoText!=""&&logoText!=undefined;
+    let hasValidLogo=logoImgUrl!==""&&logoImgUrl!=undefined;
+    if(hasValidText || hasValidLogo) {
+        let linkLogoHeader=document.createElement("a");
+        linkLogoHeader.id="header_logo";
+        linkLogoHeader.href=logoUrl;
+        if(hasValidText) {
+            let textHeader=document.createElement("h1");
+            textHeader.innerText=logoText;
+            linkLogoHeader.append(textHeader);
+        }
+        if(hasValidLogo) {
+            let imgHeader=document.createElement("img");
+            imgHeader.src=logoImgUrl;
+            imgHeader.classList.add("select-none");
+            imgHeader.id="header-ico";
+            linkLogoHeader.append(imgHeader);
+        }
+        span1Header.appendChild(linkLogoHeader);
     }
     //Navigation
     let navHeader=document.createElement("nav");
     navHeader.id="header-nav-large";
-    for(let i=0;i<headerLinks.count;i++) {
+    for(let i=0;i<headerLinks.length;i++) {
         let headerLink=document.createElement("a");
         headerLink.href=headerLinks[i].link;
         headerLink.id=headerLinks[i].id+"-hl";
@@ -54,22 +120,20 @@ try {
         themeBtn.id="theme-switcher";
         let themeImg=document.createElement("object");
         themeImg.type="image/svg+xml";
-        themeImg.classList.add("ico");
-        themeImg.style.width="1.65rem";
-        themeImg.style.height="1.65rem";
+        themeImg.classList.add("header-ico");
         let val=localStorage.getItem(strKey);
         if(!val || !schemes.includes(val)) val="system";
-        if(val=="system") themeImg.data=assetsURL+"img/theme_system.svg";
-        else if(val=="light") themeImg.data=assetsURL+"img/theme_light.svg";
-        else if(val=="dark") themeImg.data=assetsURL+"img/theme_dark.svg";
+        if(val=="system") themeImg.data=themeSystem;
+        else if(val=="light") themeImg.data=themeLight;
+        else if(val=="dark") themeImg.data=themeDark;
         themeBtn.appendChild(themeImg);
         themeBtn.onclick = function() {
             switchColorScheme();
             let val=document.documentElement.style.getPropertyValue("--theme");
             let themeImg=document.getElementById("theme-switcher").getElementsByTagName("object")[0];
-            if(val=="system") themeImg.data=assetsURL+"img/theme_system.svg";
-            else if(val=="light") themeImg.data=assetsURL+"img/theme_light.svg";
-            else if(val=="dark") themeImg.data=assetsURL+"img/theme_dark.svg";
+            if(val=="system") themeImg.data=themeSystem;
+            else if(val=="light") themeImg.data=themeLight;
+            else if(val=="dark") themeImg.data=themeDark;
         };
         otherHO.appendChild(themeBtn);
     }
@@ -83,8 +147,8 @@ try {
         };
         let burgerImg=document.createElement("object");
         burgerImg.type="image/svg+xml";
-        burgerImg.data=baseURL+"img/burger.svg";
-        burgerImg.classList.add("ico");
+        burgerImg.data=burgerMenuIcon;
+        burgerImg.classList.add("header-ico");
         burgerBtn.appendChild(burgerImg);
         otherHO.appendChild(burgerBtn);
     }
@@ -109,13 +173,13 @@ try {
         };
         let burgerHiderImg=document.createElement("object");
         burgerHiderImg.type="image/svg+xml";
-        burgerHiderImg.data=baseURL+"img/xmark.svg";
-        burgerHiderImg.classList.add("ico");
+        burgerHiderImg.data=burgerXMark;
+        burgerHiderImg.classList.add("header-ico");
         burgerHiderBtn.appendChild(burgerHiderImg);
         burgerElementsSpan.appendChild(burgerHiderBtn);
         //Links
         let burgerLinks=document.createElement("ul");
-        for(let i=0;i<headerLinks.count;i++) {
+        for(let i=0;i<headerLinks.length;i++) {
             let burgerLinkBtn=document.createElement("li");
             burgerLinkBtn.onclick=function(){
                 window.open(headerLinks[i].link, "_self");
@@ -134,8 +198,7 @@ try {
         burgerMenu.appendChild(burgerMenuBody);
         document.body.insertBefore(burgerMenu, document.body.children[1]);
     }
-    //Remove script
-    //document.body.removeChild(document.getElementById("header-gen"));
+    console.log('cool-lib (generate/header.js): Header fully generated');
 } catch (error) {
-    console.log('cool-lib (header.js): Couldn\'t fetch json: ' + err);
+    console.log('cool-lib (generate/header.js): Couldn\'t create header: ' + error);
 }

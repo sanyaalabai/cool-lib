@@ -1,4 +1,4 @@
-const copyTextToClipboard = async (text) => {
+export async function copyTextToClipboard(text) {
   try {
     await navigator.clipboard.writeText(text);
     console.log("Text copied to clipboard successfully!");
@@ -10,31 +10,38 @@ const copyTextToClipboard = async (text) => {
     );
   }
 };
-function seconds(t) {return t*1000;}
-function minutes(t) {return t*60*1000;}
-function hours(t) {return t*3600*1000;}
-///Requires time in milliseconds (use 'seconds(t)', 'minutes(t)', etc.).
-///Also required to be awaited.
-function delay(ms) {
+export function seconds(t) {return t*1000;}
+export function minutes(t) {return t*60*1000;}
+export function hours(t) {return t*60*60*1000;}
+/**
+ * Requires time in milliseconds (use 'seconds(t)', 'minutes(t)', etc.).
+ * 
+ * Also required to be awaited.
+*/
+export function delay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
-///Requires time in milliseconds (use 'seconds(t)', 'minutes(t)', etc.).
-async function executeDelayed(func, ms) {
+/**Requires time in milliseconds (use 'seconds(t)', 'minutes(t)', etc.).*/
+export async function executeDelayed(func, ms) {
   await delay(ms);
   func();
 }
-///Fetches JSON by URL. (https://stackoverflow.com/a/35970894)
-var getJSON = function(url, callback) {
-  var xhr = new XMLHttpRequest();
-  xhr.open('GET', url, true);
-  xhr.responseType = 'json';
-  xhr.onload = function() {
-    var status = xhr.status;
-    if (status === 200) {
-      callback(null, xhr.response);
-    } else {
-      callback(status, xhr.response);
-    }
-  };
-  xhr.send();
-};
+/**Fetches JSON by URL.*/
+export async function getJSON(url, callback) {
+  return new Promise((resolve) => {
+    var xhr=new XMLHttpRequest();
+    xhr.open('GET', url, true);
+    xhr.responseType='json';
+    
+    xhr.onload=function() {
+      var status=xhr.status;
+      var result=callback(status===200?status:null, xhr.response);
+      resolve(result);
+    };
+    xhr.onerror=function() {
+      resolve(callback(null, null));
+    };
+    
+    xhr.send();
+  });
+}
